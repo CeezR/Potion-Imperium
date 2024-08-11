@@ -70,3 +70,4 @@ When a player forages or explores, there is a chance they might discover new obj
 
 ### Object Interaction: 
 Other players who enter the same coordinates can encounter the newly discovered objects. This interaction could lead to events like battles, resource gathering, or further exploration.
+
