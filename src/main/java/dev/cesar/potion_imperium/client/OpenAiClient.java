@@ -1,5 +1,9 @@
 package dev.cesar.potion_imperium.client;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import dev.cesar.potion_imperium.dto.openai.RequestDTO;
+import dev.cesar.potion_imperium.dto.openai.ResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -14,6 +18,9 @@ public class OpenAiClient {
     @Value("${openai.api.url}")
     private String apiUrl;
 
+    @Value("${openai.api.key}")
+    private String apiKey;
+
     private final RestClient restClient;
 
     @Autowired
@@ -21,8 +28,14 @@ public class OpenAiClient {
         this.restClient = restClientBuilder.build();
     }
 
-    public String promt() {
-        return restClient.post().uri(apiUrl).retrieve().body(String.class);
+    public ResponseDTO promt(RequestDTO requestDTO) {
+        return restClient
+                .post()
+                .uri(apiUrl)
+                .body(requestDTO)
+                .header("Authorization", "Bearer " + apiKey)
+                .retrieve()
+                .body(ResponseDTO.class);
     }
 
 
